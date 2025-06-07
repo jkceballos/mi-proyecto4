@@ -6,8 +6,7 @@ class BasicTestCase(unittest.TestCase):
         tester = app.app.test_client(self)
         response = tester.get('/')
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Hola desde Flask', response.data)
+        self.assertIn(b'Hola desde CI con Jenkins y Docker!. Bienvenidos(as)', response.data)
 
 if __name__ == '__main__':
     unittest.main()
-
