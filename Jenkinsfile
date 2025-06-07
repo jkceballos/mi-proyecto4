@@ -26,7 +26,7 @@ pipeline {
 
         stage('Ejecutar pruebas') {
             steps {
-                sh 'docker-compose run --rm web python tests/test_app.py'
+                sh 'docker-compose run --rm web python -m unittest tests/test_app.py'
             }
         }
 
