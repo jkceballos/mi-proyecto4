@@ -14,6 +14,7 @@ pipeline {
 
         stage('Ejecutar pruebas') {
             steps {
+                sh 'docker-compose run --rm web find . -name "test_app.py"'
                 sh 'docker-compose run --rm web python tests/test_app.py'
             }
         }
