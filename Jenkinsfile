@@ -8,6 +8,8 @@ pipeline {
     stages {
         stage('Construir contenedores') {
             steps {
+                sh 'pwd'                // solo para verificar en el log
+                sh 'ls -l'              // confirmar que está todo (Dockerfile, app.py, tests/, etc.)
                 sh 'docker-compose build --no-cache'
             }
         }
