@@ -12,6 +12,12 @@ pipeline {
             }
         }
 
+        stage('Verificar archivos en contenedor') {
+            steps {
+                sh 'docker-compose run --rm web ls -R /app'
+            }
+        }
+
         stage('Ejecutar pruebas') {
             steps {
                 sh 'docker-compose run --rm web find . -name "test_app.py"'
