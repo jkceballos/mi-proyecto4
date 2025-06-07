@@ -14,7 +14,7 @@ pipeline {
 
         stage('Ejecutar pruebas') {
             steps {
-                sh 'docker-compose run --rm web python -m unittest discover tests'
+                sh 'docker-compose run --rm web python -m unittest discover -s tests'
             }
         }
 
