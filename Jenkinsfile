@@ -2,14 +2,18 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_HOST = 'unix:///var/run/docker.sock'
+        COMPOSE_PROJECT_NAME = "miproyecto-pipeline"
     }
 
     stages {
+        stage('Clonar repositorio') {
+            steps {
+                checkout scm
+            }
+        }
+
         stage('Construir contenedores') {
             steps {
-                sh 'pwd'                // solo para verificar en el log
-                sh 'ls -l'              // confirmar que está todo (Dockerfile, app.py, tests/, etc.)
                 sh 'docker-compose build --no-cache'
             }
         }
@@ -22,15 +26,25 @@ pipeline {
 
         stage('Ejecutar pruebas') {
             steps {
-                sh 'docker-compose run --rm web find . -name "test_app.py"'
-                sh 'docker-compose run --rm web python tests/test_app.py'
+                sh 'docker-compose run --rm web python -m unittest discover -s tests'
             }
         }
 
         stage('Desplegar') {
-            steps {
-                sh 'docker-compose up -d'
+            when {
+                expression { currentBuild.currentResult == 'SUCCESS' }
             }
+            steps {
+                echo 'Desplegando aplicación...'
+                // Agrega aquí el script de despliegue, si aplica
+            }
+        }
+    }
+
+    post {
+        always {
+            echo "Limpieza de contenedores temporales si es necesario."
+            sh 'docker-compose down --volumes --remove-orphans || true'
         }
     }
 }
