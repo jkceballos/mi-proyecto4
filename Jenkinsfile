@@ -44,7 +44,7 @@ pipeline {
     post {
         always {
             echo "Limpieza de contenedores temporales si es necesario."
-            sh 'docker-compose down --volumes --remove-orphans || true'
+            sh 'docker compose down --volumes --remove-orphans || true'
         }
     }
 }
