@@ -14,7 +14,7 @@ pipeline {
 
         stage('Construir contenedores') {
             steps {
-                sh 'docker compose build --no-cache'
+                sh 'docker-compose build --no-cache'
             }
         }
 
@@ -26,7 +26,7 @@ pipeline {
 
         stage('Ejecutar pruebas') {
             steps {
-                sh 'docker compose run --rm web python -m unittest tests/test_app.py'
+                sh 'docker-compose run --rm web python -m unittest tests/test_app.py'
             }
         }
 
@@ -44,7 +44,7 @@ pipeline {
     post {
         always {
             echo "Limpieza de contenedores temporales si es necesario."
-            sh 'docker compose down --volumes --remove-orphans || true'
+            sh 'docker-compose down --volumes --remove-orphans || true'
         }
     }
 }
